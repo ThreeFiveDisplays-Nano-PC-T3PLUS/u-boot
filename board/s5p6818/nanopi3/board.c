@@ -211,7 +211,13 @@ int nx_display_fixup_dp(struct nx_display_dev *dp)
 		else
 			dev->preset = 0;
 
-	} else {
+	} else if (fmt == LCD_MIPI) {
+		struct dp_mipi_dev *dev = (struct dp_mipi_dev *) dp->device;
+
+		dp->dev_type = DP_DEVICE_MIPI;
+
+
+	}else {
 		struct dp_lvds_dev *dev = (struct dp_lvds_dev *) dp->device;
 
 		dp->dev_type = DP_DEVICE_LVDS;
