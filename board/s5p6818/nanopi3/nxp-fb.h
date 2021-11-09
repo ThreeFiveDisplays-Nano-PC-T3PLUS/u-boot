@@ -83,7 +83,7 @@ enum lcd_format {
 	LCD_VESA	= 0,
 	LCD_JEIDA	= 1,
 	LCD_LOC		= 2,
-
+	LCD_MIPI	= 3,
 	LCD_RGB		= 4,
 	LCD_HDMI	= 5,
 };
