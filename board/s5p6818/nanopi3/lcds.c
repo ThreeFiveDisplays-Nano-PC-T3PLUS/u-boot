@@ -658,7 +658,7 @@ static struct nxp_lcd TFC_D91210LTWU50TC_C2A = {
 	.dpc_format = 3,
 	.gpio_init = hd101_gpio_init,
 };
-static struct nxp_lcd TFC_D9400MTV30TC_01A = {
+static struct nxp_lcd TFC_D9400MTWV30TC_01A = {
 	.width = 480,
 	.height = 480,
 	.p_width = 72,
@@ -758,7 +758,7 @@ static struct {
 	int ctp;
 	enum lcd_format fmt;
 } bd_lcd_config[] = {
-        {  35, "TFC_D9400MTV30TC_01A", &TFC_D9400MTV30TC_01A, 0, 1, LCD_MIPI },
+        {  35, "TFC_D9400MTWV30TC_01A", &TFC_D9400MTWV30TC_01A, 0, 1, LCD_MIPI },
         {  37, "TFC_D91210LTWU50TC_C2A", &TFC_D91210LTWU50TC_C2A, 0, 1, LCD_VESA },
 	{  25, "HD101",	&wxga_hd101,   0, 1, LCD_RGB  },
 	{  32, "HD101B",&wxga_hd101,   0, 1, LCD_RGB  },
