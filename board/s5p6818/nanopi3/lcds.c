@@ -658,6 +658,32 @@ static struct nxp_lcd TFC_D91210LTWU50TC_C2A = {
 	.dpc_format = 3,
 	.gpio_init = hd101_gpio_init,
 };
+static struct nxp_lcd TFC_D9400MTV30TC_01A = {
+	.width = 480,
+	.height = 480,
+	.p_width = 72,
+	.p_height = 70,
+	.bpp = 24,
+	.freq = 60,
+
+	.timing = {
+		.h_fp = 48,
+		.h_bp = 80,
+		.h_sw = 30,
+		.v_fp =  3,
+		.v_fpe = 1,
+		.v_bp =  14,
+		.v_bpe = 1,
+		.v_sw = 12,
+	},
+	.polarity = {
+		.rise_vclk = 1,
+		.inv_hsync = 0,
+		.inv_vsync = 0,
+		.inv_vden = 0,
+	},
+	.gpio_init = hd101_gpio_init,
+};
 
 
 /* HDMI */
@@ -732,7 +758,8 @@ static struct {
 	int ctp;
 	enum lcd_format fmt;
 } bd_lcd_config[] = {
-        {  35, "TFC_D91210LTWU50TC_C2A", &TFC_D91210LTWU50TC_C2A, 0, 1, LCD_VESA },
+        {  35, "TFC_D9400MTV30TC_01A", &TFC_D9400MTV30TC_01A, 0, 1, LCD_MIPI },
+        {  37, "TFC_D91210LTWU50TC_C2A", &TFC_D91210LTWU50TC_C2A, 0, 1, LCD_VESA },
 	{  25, "HD101",	&wxga_hd101,   0, 1, LCD_RGB  },
 	{  32, "HD101B",&wxga_hd101,   0, 1, LCD_RGB  },
 	{  18, "HD700",	&wxga_hd700, 213, 1, LCD_RGB  },
