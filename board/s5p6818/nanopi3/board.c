@@ -215,7 +215,8 @@ int nx_display_fixup_dp(struct nx_display_dev *dp)
 		struct dp_mipi_dev *dev = (struct dp_mipi_dev *) dp->device;
 
 		dp->dev_type = DP_DEVICE_MIPI;
-
+		dev->lp_bitrate = 100;
+		dev->hs_bitrate = 480;
 
 	}else {
 		struct dp_lvds_dev *dev = (struct dp_lvds_dev *) dp->device;
