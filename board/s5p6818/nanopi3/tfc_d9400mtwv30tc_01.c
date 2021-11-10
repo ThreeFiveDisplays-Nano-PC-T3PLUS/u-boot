@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2016  Nexell Co., Ltd.
+ * 
  *
- * Author: junghyun, kim <jhkim@nexell.co.kr>
+ * Author: Three Five Displays
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
@@ -11,8 +11,8 @@
 #include <asm/gpio.h>
 #include <asm/arch/mipi_display.h>
 
-#define LT101MB_WIDTH_MM	217
-#define LT101MB_HEIGHT_MM	136
+#define tfc_d9400mtwv30tc_01_WIDTH_MM	217
+#define tfc_d9400mtwv30tc_01_HEIGHT_MM	136
 
 #define RESET_GPIO		17	/* A 17 */
 #define RESET_DELAY		100
@@ -23,7 +23,7 @@
 
 #define mdelay(a)	udelay(a * 1000)
 
-struct lt101mb {
+struct tfc_d9400mtwv30tc_01 {
 	struct mipi_dsi_device *dsi;
 	int reset_gpio;
 	u32 reset_delay;
@@ -43,12 +43,12 @@ struct lt101mb {
 	int error;
 };
 
-static inline struct lt101mb *dsi_to_lt101mb(struct mipi_dsi_device *dsi)
+static inline struct tfc_d9400mtwv30tc_01 *dsi_to_tfc_d9400mtwv30tc_01(struct mipi_dsi_device *dsi)
 {
 	return dsi->ops->private_data;
 }
 
-static void lt101mb_dcs_write(struct lt101mb *ctx, const void *data, size_t len)
+static void tfc_d9400mtwv30tc_01_dcs_write(struct lt101mb *ctx, const void *data, size_t len)
 {
 	struct mipi_dsi_device *dsi = ctx->dsi;
 	ssize_t ret;
@@ -64,33 +64,33 @@ static void lt101mb_dcs_write(struct lt101mb *ctx, const void *data, size_t len)
 	}
 }
 
-#define lt101mb_dcs_write_seq(ctx, seq...) \
+#define tfc_d9400mtwv30tc_01_dcs_write_seq(ctx, seq...) \
 ({\
 	const u8 d[] = { seq };\
 	BUILD_BUG_ON_MSG(ARRAY_SIZE(d) > 64, "DCS sequence too big for stack");\
-	lt101mb_dcs_write(ctx, d, ARRAY_SIZE(d));\
+	tfc_d9400mtwv30tc_01_dcs_write(ctx, d, ARRAY_SIZE(d));\
 })
 
-#define lt101mb_dcs_write_seq_static(ctx, seq...) \
+#define tfc_d9400mtwv30tc_01_dcs_write_seq_static(ctx, seq...) \
 ({\
 	static const u8 d[] = { seq };\
-	lt101mb_dcs_write(ctx, d, ARRAY_SIZE(d));\
+	tfc_d9400mtwv30tc_01_dcs_write(ctx, d, ARRAY_SIZE(d));\
 })
 
-static void lt101mb_set_sequence(struct lt101mb *ctx)
+static void tfc_d9400mtwv30tc_01_set_sequence(struct tfc_d9400mtwv30tc_01 *ctx)
 {
 	if (ctx->error != 0)
 		return;
 
 	mdelay(18);
 
-	lt101mb_dcs_write_seq_static(ctx, 0x11);
+	tfc_d9400mtwv30tc_01_dcs_write_seq_static(ctx, 0x11);
 	mdelay(120);
-	lt101mb_dcs_write_seq_static(ctx, 0x29);
+	tfc_d9400mtwv30tc_01_dcs_write_seq_static(ctx, 0x29);
 	mdelay(50);
 }
 
-static int lt101mb_power_on(struct lt101mb *ctx)
+static int tfc_d9400mtwv30tc_01_power_on(struct tfc_d9400mtwv30tc_01 *ctx)
 {
 	if (ctx->is_power_on)
 		return 0;
@@ -110,7 +110,7 @@ static int lt101mb_power_on(struct lt101mb *ctx)
 	return 0;
 }
 
-static int lt101mb_power_off(struct lt101mb *ctx)
+static int tfc_d9400mtwv30tc_01_power_off(struct tfc_d9400mtwv30tc_01 *ctx)
 {
 	if (!ctx->is_power_on)
 		return 0;
@@ -123,58 +123,58 @@ static int lt101mb_power_off(struct lt101mb *ctx)
 	return 0;
 }
 
-static int lt101mb_unprepare(struct mipi_dsi_device *dsi)
+static int tfc_d9400mtwv30tc_01_unprepare(struct mipi_dsi_device *dsi)
 {
-	struct lt101mb *ctx = dsi_to_lt101mb(dsi);
+	struct tfc_d9400mtwv30tc_01 *ctx = dsi_to_tfc_d9400mtwv30tc_01(dsi);
 	int ret;
 
-	ret = lt101mb_power_off(ctx);
+	ret = tfc_d9400mtwv30tc_01_power_off(ctx);
 	if (ret)
 		return ret;
 
 	return 0;
 }
 
-static int lt101mb_prepare(struct mipi_dsi_device *dsi)
+static int tfc_d9400mtwv30tc_01_prepare(struct mipi_dsi_device *dsi)
 {
-	struct lt101mb *ctx = dsi_to_lt101mb(dsi);
+	struct tfc_d9400mtwv30tc_01 *ctx = dsi_to_tfc_d9400mtwv30tc_01(dsi);
 	int ret;
 
-	ret = lt101mb_power_on(ctx);
+	ret = tfc_d9400mtwv30tc_01_power_on(ctx);
 	if (ret < 0)
 		return ret;
 
-	lt101mb_set_sequence(ctx);
+	tfc_d9400mtwv30tc_01_set_sequence(ctx);
 	ret = ctx->error;
 
 	if (ret < 0)
-		lt101mb_unprepare(dsi);
+		tfc_d9400mtwv30tc_01_unprepare(dsi);
 
 	return ret;
 }
 
-static int lt101mb_enable(struct mipi_dsi_device *dsi)
+static int tfc_d9400mtwv30tc_01_enable(struct mipi_dsi_device *dsi)
 {
-	struct lt101mb *ctx = dsi_to_lt101mb(dsi);
+	struct tfc_d9400mtwv30tc_01 *ctx = dsi_to_tfc_d9400mtwv30tc_01(dsi);
 
-	lt101mb_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_ON);
+	tfc_d9400mtwv30tc_01_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_ON);
 	if (ctx->error != 0)
 		return ctx->error;
 
 	return 0;
 }
 
-static int lt101mb_disable(struct mipi_dsi_device *dsi)
+static int tfc_d9400mtwv30tc_01_disable(struct mipi_dsi_device *dsi)
 {
-	struct lt101mb *ctx = dsi_to_lt101mb(dsi);
+	struct tfc_d9400mtwv30tc_01 *ctx = dsi_to_tfc_d9400mtwv30tc_01(dsi);
 
-	lt101mb_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_OFF);
+	tfc_d9400mtwv30tc_01_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_OFF);
 	if (ctx->error != 0)
 		return ctx->error;
 
 	mdelay(35);
 
-	lt101mb_dcs_write_seq_static(ctx, MIPI_DCS_ENTER_SLEEP_MODE);
+	tfc_d9400mtwv30tc_01_dcs_write_seq_static(ctx, MIPI_DCS_ENTER_SLEEP_MODE);
 	if (ctx->error != 0)
 		return ctx->error;
 
@@ -183,14 +183,14 @@ static int lt101mb_disable(struct mipi_dsi_device *dsi)
 	return 0;
 }
 
-static struct mipi_panel_ops lt101mb_ops = {
-	.prepare = lt101mb_prepare,
-	.unprepare = lt101mb_unprepare,
-	.enable = lt101mb_enable,
-	.disable = lt101mb_disable,
+static struct mipi_panel_ops tfc_d9400mtwv30tc_01_ops = {
+	.prepare = tfc_d9400mtwv30tc_01_prepare,
+	.unprepare = tfc_d9400mtwv30tc_01_unprepare,
+	.enable = tfc_d9400mtwv30tc_01_enable,
+	.disable = tfc_d9400mtwv30tc_01_disable,
 };
 
-static int lt101mb_parse_dt(struct lt101mb *ctx)
+static int tfc_d9400mtwv30tc_01_parse_dt(struct lt101mb *ctx)
 {
 	ctx->reset_gpio = RESET_GPIO;
 	ctx->reset_delay = RESET_DELAY;
@@ -202,9 +202,9 @@ static int lt101mb_parse_dt(struct lt101mb *ctx)
 	return 0;
 }
 
-static int lt101mb_init(struct mipi_dsi_device *dsi)
+static int tfc_d9400mtwv30tc_01_init(struct mipi_dsi_device *dsi)
 {
-	struct lt101mb *ctx;
+	struct tfc_d9400mtwv30tc_01 *ctx;
 	int ret;
 
 	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
@@ -220,16 +220,16 @@ static int lt101mb_init(struct mipi_dsi_device *dsi)
 		| MIPI_DSI_MODE_VIDEO_HFP | MIPI_DSI_MODE_VIDEO_HBP
 		| MIPI_DSI_MODE_VIDEO_HSA | MIPI_DSI_MODE_VSYNC_FLUSH;
 
-	dsi->ops = &lt101mb_ops;
+	dsi->ops = &tfc_d9400mtwv30tc_01_ops;
 	dsi->ops->private_data = ctx;
 
-	ret = lt101mb_parse_dt(ctx);
+	ret = tfc_d9400mtwv30tc_01_parse_dt(ctx);
 	if (ret < 0)
 		return ret;
 
 	ret = gpio_request(ctx->reset_gpio, "reset-gpio");
 	if (ret) {
-		printf("fail: lt010mb request reset-gpio !\n");
+		printf("fail: tfc_d9400mtwv30tc_01 request reset-gpio !\n");
 		return ret;
 	}
 
@@ -238,5 +238,5 @@ static int lt101mb_init(struct mipi_dsi_device *dsi)
 
 int nx_mipi_dsi_lcd_bind(struct mipi_dsi_device *dsi)
 {
-	return lt101mb_init(dsi);
+	return tfc_d9400mtwv30tc_01_init(dsi);
 }
