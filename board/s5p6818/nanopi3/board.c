@@ -248,7 +248,7 @@ static void bd_update_env(void)
 	if (lcddpi) {
 		n += sprintf(cmdline + n, ",%sdpi", lcddpi);
 	} else {
-		int dpi = bd_get_lcd_density();
+		int dpi = 0;
 
 		if (dpi > 0 && dpi < 600) {
 			n += sprintf(cmdline + n, ",%ddpi", dpi);
