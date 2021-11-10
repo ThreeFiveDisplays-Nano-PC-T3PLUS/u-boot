@@ -122,16 +122,6 @@ static void bd_bootdev_init(void)
 	}
 }
 
-static void bd_onewire_init(void)
-{
-	unsigned char lcd;
-	unsigned short fw_ver;
-
-	onewire_init();
-	onewire_get_info(&lcd, &fw_ver);
-}
-
-
 static int mac_read_from_generic_eeprom(u8 *addr)
 {
 	struct udevice *i2c_dev;
