@@ -48,7 +48,7 @@ static inline struct tfc_d9400mtwv30tc_01 *dsi_to_tfc_d9400mtwv30tc_01(struct mi
 	return dsi->ops->private_data;
 }
 
-static void tfc_d9400mtwv30tc_01_dcs_write(struct lt101mb *ctx, const void *data, size_t len)
+static void tfc_d9400mtwv30tc_01_dcs_write(struct tfc_d9400mtwv30tc_01 *ctx, const void *data, size_t len)
 {
 	struct mipi_dsi_device *dsi = ctx->dsi;
 	ssize_t ret;
@@ -190,7 +190,7 @@ static struct mipi_panel_ops tfc_d9400mtwv30tc_01_ops = {
 	.disable = tfc_d9400mtwv30tc_01_disable,
 };
 
-static int tfc_d9400mtwv30tc_01_parse_dt(struct lt101mb *ctx)
+static int tfc_d9400mtwv30tc_01_parse_dt(struct tfc_d9400mtwv30tc_01 *ctx)
 {
 	ctx->reset_gpio = RESET_GPIO;
 	ctx->reset_delay = RESET_DELAY;
