@@ -66,49 +66,52 @@
 	};
 
 	dp0:dp@c0102800 {
-		status = "okay";
-		module = <0>;
-		lcd-type = "lvds";
+        status = "okay";
+        module = <0>;
+        lcd-type = "mipi";
 
-		dp-device {
-			format = <0>;	/* 0:VESA, 1:JEIDA */
+	dp-device {
+		hs_bitrate = <480>;
+		lp_bitrate = <80>;
+	};
+
+        dp-sync {
+		h_active_len = <480>;
+		h_front_porch = <28>;
+		h_back_porch = <11>;
+		h_sync_width = <11>;
+		v_active_len = <480>;
+		v_front_porch = <10>;
+		v_back_porch = <5>;
+		v_sync_width = <5>;
+	};
+
+	dp-ctrl {
+		clk_src_lv0 = <0>;
+		clk_div_lv0 = <5>;
+		clk_src_lv1 = <7>;
+		clk_div_lv1 = <1>;
+		out_format = <3>;
+		vs_start_offset = <2387>;
+		ev_start_offset = <2387>;
+		vs_end_offset = <0>;
+		ev_end_offset = <0>;
+	};
+
+	dp-planes {
+		layer_top {
+			screen_width = <480>;
+			screen_height = <480>;
+			back_color = <0x0>;
 		};
 
-		dp-sync {
-			h_active_len = <1024>;
-			h_front_porch = <84>;
-			h_back_porch = <84>;
-			h_sync_width = <88>;
-			h_sync_invert = <0>;
-			v_active_len = <600>;
-			v_front_porch = <10>;
-			v_back_porch = <10>;
-			v_sync_width = <20>;
-			v_sync_invert = <0>;
-		};
-
-		dp-ctrl {
-			clk_src_lv0 = <3>;
-			clk_div_lv0 = <16>;
-			clk_src_lv1 = <7>;
-			clk_div_lv1 = <1>;
-			out_format = <2>;
-		};
-
-		dp-planes {
-			layer_top {
-				screen_width = <1024>;
-				screen_height = <600>;
-				back_color = <0x0>;
-			};
-
-			layer_1 {	/* RGB 1 */
-				width = <1024>;
-				height = <600>;
-				format = <0x06530000>;
-				pixel_byte = <4>;
-			};
+		layer_1 {	/* RGB 1 */
+			width = <480>;
+			height = <480>;
+			format = <0x06530000>;
+			pixel_byte = <4>;
 		};
 	};
+};
 
 };
