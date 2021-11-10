@@ -34,8 +34,6 @@
 #include <u-boot/md5.h>
 
 #include "hwrev.h"
-#include "onewire.h"
-#include "nxp-fb.h"
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -80,43 +78,6 @@ static inline void bd_pwm_config_gpio(int ch)
 }
 #endif
 
-static void bd_backlight_off(void)
-{
-#ifdef CONFIG_ONEWIRE
-	onewire_set_backlight(0);
-
-#elif defined(CONFIG_BACKLIGHT_CH)
-	bd_pwm_config_gpio(CONFIG_BACKLIGHT_CH);
-#endif
-}
-
-static void bd_backlight_on(void)
-{
-#ifdef CONFIG_ONEWIRE
-	onewire_set_backlight(127);
-
-#elif defined(CONFIG_BACKLIGHT_CH)
-	/* pwm backlight ON: HIGH, ON: LOW */
-	pwm_init(CONFIG_BACKLIGHT_CH,
-		CONFIG_BACKLIGHT_DIV, CONFIG_BACKLIGHT_INV);
-	pwm_config(CONFIG_BACKLIGHT_CH,
-		TO_DUTY_NS(CONFIG_BACKLIGHT_DUTY, CONFIG_BACKLIGHT_HZ),
-		TO_PERIOD_NS(CONFIG_BACKLIGHT_HZ));
-#endif
-}
-
-static void bd_lcd_config_gpio(void)
-{
-	int i;
-
-	for (i = 0; i < 28; i++) {
-		nx_gpio_set_pad_function(gpio_a, i, 1);
-		nx_gpio_set_drive_strength(gpio_a, i, 0);
-		nx_gpio_set_pull_mode(gpio_a, i, 2);
-	}
-
-	nx_gpio_set_drive_strength(gpio_a, 0, 1);
-}
 
 /* DEFAULT mmc dev for eMMC boot (dwmmc.2) */
 static int mmc_boot_dev = 0;
@@ -141,86 +102,6 @@ int checkboard(void)
 }
 #endif
 
-int nx_display_fixup_dp(struct nx_display_dev *dp)
-{
-	char *lcdtype = getenv("lcdtype");
-	struct nxp_lcd *lcd = bd_get_lcd();
-	struct nxp_lcd_timing *timing;
-	enum lcd_format fmt;
-	struct dp_sync_info *sync = &dp->sync;
-	struct dp_plane_info *plane = &dp->planes[0];
-	int i;
-	u32 clk = 800000000;
-	u32 div;
-
-	if (lcdtype) {
-		/* Setup again as user specified LCD in env */
-		bd_setup_lcd_by_name(lcdtype);
-
-		lcd = bd_get_lcd();
-		if (lcd->gpio_init)
-			lcd->gpio_init();
-	}
-
-	timing = &lcd->timing;
-	fmt = bd_get_lcd_format();
-
-	sync->h_active_len = lcd->width;
-	sync->h_sync_width = timing->h_sw;
-	sync->h_back_porch = timing->h_bp;
-	sync->h_front_porch = timing->h_fp;
-	sync->h_sync_invert = !lcd->polarity.inv_hsync;
-
-	sync->v_active_len = lcd->height;
-	sync->v_sync_width = timing->v_sw;
-	sync->v_back_porch = timing->v_bp;
-	sync->v_front_porch = timing->v_fp;
-	sync->v_sync_invert = !lcd->polarity.inv_vsync;
-
-	/* calculates pixel clock */
-	div  = timing->h_sw + timing->h_bp + timing->h_fp + lcd->width;
-	div *= timing->v_sw + timing->v_bp + timing->v_fp + lcd->height;
-	div *= lcd->freq ? : 60;
-	clk /= div;
-
-	dp->ctrl.clk_div_lv0 = clk;
-
-	if (lcd->dpc_format > 0)
-		dp->ctrl.out_format = lcd->dpc_format;
-
-	dp->top.screen_width = lcd->width;
-	dp->top.screen_height = lcd->height;
-
-	for (i = 0; i < dp->top.plane_num; i++, plane++) {
-		if (plane->enable) {
-			plane->width = lcd->width;
-			plane->height = lcd->height;
-		}
-	}
-
-	/* initialize display device type */
-	if (fmt == LCD_RGB) {
-		dp->dev_type = DP_DEVICE_RGBLCD;
-
-	} else if (fmt == LCD_HDMI) {
-		struct dp_hdmi_dev *dev = (struct dp_hdmi_dev *) dp->device;
-
-		dp->dev_type = DP_DEVICE_HDMI;
-		if (lcd->width == 1920 && lcd->height == 1080)
-			dev->preset = 1;
-		else
-			dev->preset = 0;
-
-	} else {
-		struct dp_lvds_dev *dev = (struct dp_lvds_dev *) dp->device;
-
-		dp->dev_type = DP_DEVICE_LVDS;
-		dev->lvds_format = (fmt & 0x3);
-		dev->voltage_level = 0x11f;
-	}
-
-	return 0;
-}
 
 /* --------------------------------------------------------------------------
  * intialize board status.
@@ -250,31 +131,6 @@ static void bd_onewire_init(void)
 	onewire_get_info(&lcd, &fw_ver);
 }
 
-static void bd_lcd_init(void)
-{
-	struct nxp_lcd *cfg;
-	int id;
-	int ret;
-
-	id = onewire_get_lcd_id();
-	/* -1: onwire probe failed
-	 *  0: bad
-	 * >0: identified */
-	 id =  35; // Force to a specific LCD TFC-D91210LTWU50TC-C2
-
-	ret = bd_setup_lcd_by_id(id);
-	if (id <= 0 || ret != id) {
-		printf("Panel: N/A (%d)\n", id);
-		bd_setup_lcd_by_name("HDMI720P60");
-
-	} else {
-		printf("Panel: %s\n", bd_get_lcd_name());
-
-		cfg = bd_get_lcd();
-		if (cfg->gpio_init)
-			cfg->gpio_init();
-	}
-}
 
 static int mac_read_from_generic_eeprom(u8 *addr)
 {
@@ -372,7 +228,6 @@ static void bd_update_env(void)
 		need_save = 1;
 	}
 
-	name = bd_get_lcd_name();
 
 	if (bootargs)
 		n = strlen(bootargs);	/* isn't 0 for NULL */
@@ -529,7 +384,6 @@ static void bd_check_recovery_key(void)
 	/* power key pressed 2.5s and gpio event detected */
 	if (i >= 2500 && pin_status) {
 		printf("\nenter recovery mode (wipe_data)\n");
-		onewire_set_backlight(80);
 		bd_set_recovery_wipe_data();
 		run_command("setenv initrd_name ramdisk-recovery.img; boot", 0);
 	}
@@ -574,12 +428,6 @@ int board_init(void)
 {
 	bd_hwrev_init();
 	bd_bootdev_init();
-	bd_onewire_init();
-
-	bd_backlight_off();
-
-	bd_lcd_config_gpio();
-	bd_lcd_init();
 
 #ifdef CONFIG_SILENT_CONSOLE
 	gd->flags |= GD_FLG_SILENT;
@@ -604,7 +452,6 @@ int board_late_init(void)
 	gd->flags &= ~GD_FLG_SILENT;
 #endif
 
-	bd_backlight_on();
 	printf("\n");
 
 	bd_check_reset();
