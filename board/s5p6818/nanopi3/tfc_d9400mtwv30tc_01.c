@@ -271,7 +271,7 @@ static int tfc_d9400mtwv30tc_01_init(struct mipi_dsi_device *dsi)
 	ctx->dsi = dsi;
 	ctx->is_power_on = false;
 
-	dsi->lanes = 4;
+	dsi->lanes = 2;
 	dsi->format = MIPI_DSI_FMT_RGB888;
 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO
 		| MIPI_DSI_MODE_VIDEO_HFP | MIPI_DSI_MODE_VIDEO_HBP
