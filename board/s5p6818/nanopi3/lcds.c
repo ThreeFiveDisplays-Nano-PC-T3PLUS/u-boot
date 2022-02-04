@@ -631,23 +631,23 @@ static struct nxp_lcd qvga_w35 = {
 	},
 };
 
-static struct nxp_lcd TFC_D91210LTWU50TC_C2A = {
-	.width = 1280,
-	.height = 800,
-	.p_width = 261,
-	.p_height = 163,
+static struct nxp_lcd TFC_A9700RTWV80TC_02 = {
+	.width = 800,
+	.height = 480,
+	.p_width = 154,
+	.p_height = 86,
 	.bpp = 24,
-	.freq = 60,
+	.freq = 32,
 
 	.timing = {
-		.h_fp = 48,
-		.h_bp = 80,
-		.h_sw = 30,
-		.v_fp =  3,
+		.h_fp = 40,
+		.h_bp = 88,
+		.h_sw = 20,
+		.v_fp =  13,
 		.v_fpe = 1,
-		.v_bp =  14,
+		.v_bp =  32,
 		.v_bpe = 1,
-		.v_sw = 12,
+		.v_sw = 3,
 	},
 	.polarity = {
 		.rise_vclk = 1,
@@ -732,7 +732,7 @@ static struct {
 	int ctp;
 	enum lcd_format fmt;
 } bd_lcd_config[] = {
-        {  35, "TFC_D91210LTWU50TC_C2A", &TFC_D91210LTWU50TC_C2A, 0, 1, LCD_VESA },
+        {  35, "TFC_A9700RTWV80TC_02", &TFC_A9700RTWV80TC_02, 0, 1, LCD_RGB },
 	{  25, "HD101",	&wxga_hd101,   0, 1, LCD_RGB  },
 	{  32, "HD101B",&wxga_hd101,   0, 1, LCD_RGB  },
 	{  18, "HD700",	&wxga_hd700, 213, 1, LCD_RGB  },
