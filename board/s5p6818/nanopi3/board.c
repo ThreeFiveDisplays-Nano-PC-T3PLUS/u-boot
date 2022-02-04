@@ -260,7 +260,7 @@ static void bd_lcd_init(void)
 	/* -1: onwire probe failed
 	 *  0: bad
 	 * >0: identified */
-	 id =  35; // Force to a specific LCD TFC-D91210LTWU50TC-C2
+	 id =  35; // Force to a specific TFC LCD 
 
 	ret = bd_setup_lcd_by_id(id);
 	if (id <= 0 || ret != id) {
