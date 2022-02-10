@@ -83,9 +83,11 @@ static void lt101mb_set_sequence(struct lt101mb *ctx)
 		return;
 
 	mdelay(18);
-        printf("Start of DSC Mipi Commands to Panel");
-	lt101mb_dcs_write_seq_static(ctx, 0xFF, 0x98, 0x81, 0x03);  
+        printf("Start of DSC Mipi Commands to Panel/n");
+	lt101mb_dcs_write_seq_static(ctx, 0xFF, 0x98, 0x81, 0x03); 
+	 printf("Finished sending first DSC Command to Panel/n");
 		mdelay(11);
+        printf("Finished first command 11ms delay/n");
 	 lt101mb_dcs_write_seq_static(ctx, 0x01, 0x00);  
 		mdelay(11);	
 	
@@ -115,7 +117,8 @@ static void lt101mb_set_sequence(struct lt101mb *ctx)
 		mdelay(11);	
 
 	 lt101mb_dcs_write_seq_static(ctx, 0x0a, 0x00);  
-		mdelay(11);	
+		mdelay(11);
+	 printf("Finished sending Tenth DSC Command to Panel/n");
 
 	 lt101mb_dcs_write_seq_static(ctx, 0x0b, 0x00);  
 		mdelay(11);	
@@ -510,9 +513,12 @@ static void lt101mb_set_sequence(struct lt101mb *ctx)
 	mdelay(11);       
 		    
 	lt101mb_dcs_write_seq_static(ctx, 0x11);	 // Set Sleep Out
+	 printf("Finished sending sleep out 0x11 command/n");
 	mdelay(120);
+	 printf("Finished delay after sending sleep out command /n");
 	lt101mb_dcs_write_seq_static(ctx, 0x29);	// Set Display On
-	mdelay(120);		    
+	mdelay(120);	
+	 printf("Finished sending Display On Command 0x29 command/n");
 }
 
 static int lt101mb_power_on(struct lt101mb *ctx)
