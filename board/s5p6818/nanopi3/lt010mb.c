@@ -641,6 +641,7 @@ static int lt101mb_parse_dt(struct lt101mb *ctx)
 
 static int lt101mb_init(struct mipi_dsi_device *dsi)
 {
+		printf("Starting lt101mb_init \n");
 	struct lt101mb *ctx;
 	int ret;
 
