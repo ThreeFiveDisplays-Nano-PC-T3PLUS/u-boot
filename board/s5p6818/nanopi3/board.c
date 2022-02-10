@@ -279,6 +279,7 @@ static void set_dtb_name(void)
 
 static void bd_update_env(void)
 {
+/*	
 	char *lcddpi = getenv("lcddpi");
 	char *bootargs = getenv("bootargs");
 	const char *name;
@@ -299,7 +300,7 @@ static void bd_update_env(void)
 	name = bd_get_lcd_name();
 
 	if (bootargs)
-		n = strlen(bootargs);	/* isn't 0 for NULL */
+		n = strlen(bootargs); */	/* isn't 0 for NULL */ /*
 	else
 		cmdline[0] = '\0';
 
@@ -316,8 +317,8 @@ static void bd_update_env(void)
 		}
 		strncpy(cmdline, bootargs, n);
 	}
-
-	/* add `lcd=NAME,NUMdpi' */
+*/
+	/* add `lcd=NAME,NUMdpi' */ /*
 	strncpy(cmdline + n, CMDLINE_LCD, strlen(CMDLINE_LCD));
 	n += strlen(CMDLINE_LCD);
 
@@ -334,7 +335,7 @@ static void bd_update_env(void)
 		}
 	}
 
-	/* copy remaining of bootargs */
+*/	/* copy remaining of bootargs */ /*
 	if (p) {
 		p = strstr(p, " ");
 		if (p) {
@@ -343,13 +344,13 @@ static void bd_update_env(void)
 		}
 	}
 
-	/* append `bootdev=2' */
+*/	/* append `bootdev=2' */ /*
 #define CMDLINE_BDEV	" bootdev="
 	if (rootdev > 0 && !strstr(cmdline, CMDLINE_BDEV)) {
 		n += sprintf(cmdline + n, "%s2", CMDLINE_BDEV);
 	}
 
-	/* finally, let's update uboot env & save it */
+*/	/* finally, let's update uboot env & save it */ /*
 	if (bootargs && strncmp(cmdline, bootargs, sizeof(cmdline))) {
 		setenv("bootargs", cmdline);
 		need_save = 1;
@@ -358,6 +359,7 @@ static void bd_update_env(void)
 __exit:
 	if (need_save)
 		saveenv();
+		*/
 }
 
 static int bd_set_recovery_wipe_data(void)
@@ -405,6 +407,7 @@ static int bd_set_recovery_wipe_data(void)
 	}
 
 	return 1;
+	
 }
 
 static void bd_check_recovery_key(void)
