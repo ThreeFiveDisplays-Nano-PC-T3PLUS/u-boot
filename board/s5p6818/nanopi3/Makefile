@@ -5,5 +5,5 @@
 # SPDX-License-Identifier:      GPL-2.0+
 #
 
-obj-y	:= board.o hwrev.o onewire.o lcds.o
+obj-y	:= board.o hwrev.o onewire.o 
 obj-$(CONFIG_VIDEO_NX_MIPI) += lt010mb.o
