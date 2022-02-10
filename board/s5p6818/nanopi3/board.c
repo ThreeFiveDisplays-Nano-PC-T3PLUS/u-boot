@@ -143,81 +143,6 @@ int checkboard(void)
 
 int nx_display_fixup_dp(struct nx_display_dev *dp)
 {
-	char *lcdtype = getenv("lcdtype");
-	struct nxp_lcd *lcd = bd_get_lcd();
-	struct nxp_lcd_timing *timing;
-	enum lcd_format fmt;
-	struct dp_sync_info *sync = &dp->sync;
-	struct dp_plane_info *plane = &dp->planes[0];
-	int i;
-	u32 clk = 800000000;
-	u32 div;
-
-	if (lcdtype) {
-		/* Setup again as user specified LCD in env */
-		bd_setup_lcd_by_name(lcdtype);
-
-		lcd = bd_get_lcd();
-		if (lcd->gpio_init)
-			lcd->gpio_init();
-	}
-
-	timing = &lcd->timing;
-	fmt = bd_get_lcd_format();
-
-	sync->h_active_len = lcd->width;
-	sync->h_sync_width = timing->h_sw;
-	sync->h_back_porch = timing->h_bp;
-	sync->h_front_porch = timing->h_fp;
-	sync->h_sync_invert = !lcd->polarity.inv_hsync;
-
-	sync->v_active_len = lcd->height;
-	sync->v_sync_width = timing->v_sw;
-	sync->v_back_porch = timing->v_bp;
-	sync->v_front_porch = timing->v_fp;
-	sync->v_sync_invert = !lcd->polarity.inv_vsync;
-
-	/* calculates pixel clock */
-	div  = timing->h_sw + timing->h_bp + timing->h_fp + lcd->width;
-	div *= timing->v_sw + timing->v_bp + timing->v_fp + lcd->height;
-	div *= lcd->freq ? : 60;
-	clk /= div;
-
-	dp->ctrl.clk_div_lv0 = clk;
-
-	if (lcd->dpc_format > 0)
-		dp->ctrl.out_format = lcd->dpc_format;
-
-	dp->top.screen_width = lcd->width;
-	dp->top.screen_height = lcd->height;
-
-	for (i = 0; i < dp->top.plane_num; i++, plane++) {
-		if (plane->enable) {
-			plane->width = lcd->width;
-			plane->height = lcd->height;
-		}
-	}
-
-	/* initialize display device type */
-	if (fmt == LCD_RGB) {
-		dp->dev_type = DP_DEVICE_RGBLCD;
-
-	} else if (fmt == LCD_HDMI) {
-		struct dp_hdmi_dev *dev = (struct dp_hdmi_dev *) dp->device;
-
-		dp->dev_type = DP_DEVICE_HDMI;
-		if (lcd->width == 1920 && lcd->height == 1080)
-			dev->preset = 1;
-		else
-			dev->preset = 0;
-
-	} else {
-		struct dp_lvds_dev *dev = (struct dp_lvds_dev *) dp->device;
-
-		dp->dev_type = DP_DEVICE_LVDS;
-		dev->lvds_format = (fmt & 0x3);
-		dev->voltage_level = 0x11f;
-	}
 
 	return 0;
 }
@@ -578,7 +503,7 @@ int board_init(void)
 	bd_backlight_off();
 
 	bd_lcd_config_gpio();
-	bd_lcd_init();
+	//bd_lcd_init();
 
 #ifdef CONFIG_SILENT_CONSOLE
 	gd->flags |= GD_FLG_SILENT;
