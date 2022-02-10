@@ -11,8 +11,8 @@
 #include <asm/gpio.h>
 #include <asm/arch/mipi_display.h>
 
-#define LT101MB_WIDTH_MM	217
-#define LT101MB_HEIGHT_MM	136
+#define LT101MB_WIDTH_MM	62
+#define LT101MB_HEIGHT_MM	110
 
 #define RESET_GPIO		17	/* A 17 */
 #define RESET_DELAY		100
