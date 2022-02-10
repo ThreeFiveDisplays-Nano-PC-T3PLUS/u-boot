@@ -297,7 +297,8 @@ static void bd_update_env(void)
 		need_save = 1;
 	}
 
-	name = bd_get_lcd_name();
+	//name = bd_get_lcd_name();
+	   name = "TFC-J9500MTWX50TC-01";
 
 	if (bootargs)
 		n = strlen(bootargs); 	/* isn't 0 for NULL */ 
@@ -328,8 +329,8 @@ static void bd_update_env(void)
 	if (lcddpi) {
 		n += sprintf(cmdline + n, ",%sdpi", lcddpi);
 	} else {
-		int dpi = bd_get_lcd_density();
-
+		//int dpi = bd_get_lcd_density();
+                     int dpi = 295;
 		if (dpi > 0 && dpi < 600) {
 			n += sprintf(cmdline + n, ",%ddpi", dpi);
 		}
