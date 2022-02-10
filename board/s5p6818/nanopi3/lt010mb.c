@@ -83,8 +83,8 @@ static void lt101mb_set_sequence(struct lt101mb *ctx)
 		return;
 
 	mdelay(18);
-
-	 lt101mb_dcs_write_seq_static(ctx, 0xFF, 0x98, 0x81, 0x03);  
+        printf("Start of DSC Mipi Commands to Panel");
+	lt101mb_dcs_write_seq_static(ctx, 0xFF, 0x98, 0x81, 0x03);  
 		mdelay(11);
 	 lt101mb_dcs_write_seq_static(ctx, 0x01, 0x00);  
 		mdelay(11);	
