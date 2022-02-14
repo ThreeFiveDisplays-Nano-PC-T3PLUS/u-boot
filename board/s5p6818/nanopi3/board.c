@@ -83,7 +83,7 @@ static inline void bd_pwm_config_gpio(int ch)
 static void bd_backlight_off(void)
 {
 #ifdef CONFIG_ONEWIRE
-	onewire_set_backlight(0);
+	//onewire_set_backlight(0);
 
 #elif defined(CONFIG_BACKLIGHT_CH)
 	bd_pwm_config_gpio(CONFIG_BACKLIGHT_CH);
@@ -93,7 +93,7 @@ static void bd_backlight_off(void)
 static void bd_backlight_on(void)
 {
 #ifdef CONFIG_ONEWIRE
-	onewire_set_backlight(127);
+	//onewire_set_backlight(127);
 
 #elif defined(CONFIG_BACKLIGHT_CH)
 	/* pwm backlight ON: HIGH, ON: LOW */
