@@ -194,7 +194,8 @@ static void bd_lcd_init(void)
 	} else {
 		printf("Panel: %s\n", bd_get_lcd_name());*/
 
-		cfg = bd_get_lcd();
+		//cfg = bd_get_lcd();
+	        cfg = "TFC-J9500MTWX50TC-01";
 		if (cfg->gpio_init)
 			cfg->gpio_init();
 	/* } */
