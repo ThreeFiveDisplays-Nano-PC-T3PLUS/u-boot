@@ -171,8 +171,8 @@ static void bd_onewire_init(void)
 	unsigned char lcd;
 	unsigned short fw_ver;
 
-	/*onewire_init();*/
-	/*onewire_get_info(&lcd, &fw_ver);*/
+	onewire_init();
+	onewire_get_info(&lcd, &fw_ver);
 }
 
 static void bd_lcd_init(void)
