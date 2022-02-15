@@ -83,7 +83,7 @@ static inline void bd_pwm_config_gpio(int ch)
 static void bd_backlight_off(void)
 {
 #ifdef CONFIG_ONEWIRE
-	//onewire_set_backlight(0);
+	onewire_set_backlight(0);
 
 #elif defined(CONFIG_BACKLIGHT_CH)
 	bd_pwm_config_gpio(CONFIG_BACKLIGHT_CH);
@@ -93,7 +93,7 @@ static void bd_backlight_off(void)
 static void bd_backlight_on(void)
 {
 #ifdef CONFIG_ONEWIRE
-	//onewire_set_backlight(127);
+	onewire_set_backlight(127);
 
 #elif defined(CONFIG_BACKLIGHT_CH)
 	/* pwm backlight ON: HIGH, ON: LOW */
@@ -181,24 +181,24 @@ static void bd_lcd_init(void)
 	int id;
 	int ret;
 
-	/*id = onewire_get_lcd_id();*/
+	id = onewire_get_lcd_id();
 	/* -1: onwire probe failed
 	 *  0: bad
 	 * >0: identified */
 
-	/*ret = bd_setup_lcd_by_id(id);
+	ret = bd_setup_lcd_by_id(id);
 	if (id <= 0 || ret != id) {
 		printf("Panel: N/A (%d)\n", id);
 		bd_setup_lcd_by_name("HDMI720P60");
 
 	} else {
-		printf("Panel: %s\n", bd_get_lcd_name());*/
+		printf("Panel: %s\n", bd_get_lcd_name());
 
-		//cfg = bd_get_lcd();
-	        cfg = "TFC-J9500MTWX50TC-01";
+		cfg = bd_get_lcd();
+
 		if (cfg->gpio_init)
 			cfg->gpio_init();
-	/* } */
+	 } 
 }
 
 static int mac_read_from_generic_eeprom(u8 *addr)
