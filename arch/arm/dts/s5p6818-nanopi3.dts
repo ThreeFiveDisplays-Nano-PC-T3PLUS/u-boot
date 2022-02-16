@@ -71,7 +71,7 @@
         lcd-type = "mipi";
 
 	dp-device {
-		hs_bitrate = <1000>;
+		hs_bitrate = <400>;
 		lp_bitrate = <80>;
 	};
 
