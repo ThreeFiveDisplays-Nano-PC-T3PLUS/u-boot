@@ -64,6 +64,7 @@
 		nexell,i2c-sda-delay = <100>;
 		nexell,i2c-max-bus-freq = <200000>;
 	};
+};
 &dp0 {
         status = "okay";
         module = <0>;
@@ -112,5 +113,5 @@
 		};
 	};
 };
-};
+
 
