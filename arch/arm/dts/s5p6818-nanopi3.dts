@@ -71,16 +71,16 @@
         lcd-type = "mipi";
 
 	dp-device {
-		hs_bitrate = <400>;
+		hs_bitrate = <1000>;
 		lp_bitrate = <80>;
 	};
 
         dp-sync {
-		h_active_len = <1280>;
+		h_active_len = <1920>;
 		h_front_porch = <40>;
 		h_back_porch = <5>;
 		h_sync_width = <10>;
-		v_active_len = <800>;
+		v_active_len = <1200>;
 		v_front_porch = <20>;
 		v_back_porch = <20>;
 		v_sync_width = <4>;
