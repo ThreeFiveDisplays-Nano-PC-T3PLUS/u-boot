@@ -107,8 +107,8 @@
 		};
 
 		layer_1 {	/* RGB 1 */
-			width = <1920>;
-			height = <1200>;
+			width = <720>;
+			height = <1280>;
 			format = <0x06530000>;
 			pixel_byte = <4>;
 		};
