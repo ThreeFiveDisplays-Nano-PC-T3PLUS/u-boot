@@ -432,33 +432,33 @@ static void lt101mb_set_sequence(struct lt101mb *ctx)
 		mdelay(11);    
        	 lt101mb_dcs_write_seq_static(ctx, 0xa5, 0x2a);      // Set Positive Gamma Correction-6 to 0x2A
 		mdelay(11); 	
-      	 lt101mb_dcs_write_seq_static(ctx, 0xa6, 0x08);    // Set Positive Gamma Correction-7 to 0x1E
+      	 lt101mb_dcs_write_seq_static(ctx, 0xa6, 0x1e);    // Set Positive Gamma Correction-7 to 0x1E
 		mdelay(11);     
-       	 lt101mb_dcs_write_seq_static(ctx, 0xa7, 0x1a);     // Set Positive Gamma Correction-8 to 0x1F
+       	 lt101mb_dcs_write_seq_static(ctx, 0xa7, 0x1f);     // Set Positive Gamma Correction-8 to 0x1F
 		mdelay(11);      
-       	 lt101mb_dcs_write_seq_static(ctx, 0xa8, 0x27);    // Set Positive Gamma Correction-9 to 0x8B
+       	 lt101mb_dcs_write_seq_static(ctx, 0xa8, 0x8b);    // Set Positive Gamma Correction-9 to 0x8B
 		mdelay(11);     
-       	 lt101mb_dcs_write_seq_static(ctx, 0xa9, 0x15);    // Set Positive Gamma Correction-10 to 0x1B
+       	 lt101mb_dcs_write_seq_static(ctx, 0xa9, 0x1b);    // Set Positive Gamma Correction-10 to 0x1B
 		mdelay(11);      
-       	 lt101mb_dcs_write_seq_static(ctx, 0xaa, 0x17);      // Set Positive Gamma Correction-11 to 0x27
+       	 lt101mb_dcs_write_seq_static(ctx, 0xaa, 0x27);      // Set Positive Gamma Correction-11 to 0x27
 		mdelay(11);    
-       	 lt101mb_dcs_write_seq_static(ctx, 0xab, 0x2a);     // Set Positive Gamma Correction-12 to 0x78
+       	 lt101mb_dcs_write_seq_static(ctx, 0xab, 0x78);     // Set Positive Gamma Correction-12 to 0x78
 		mdelay(11); 	
-       	 lt101mb_dcs_write_seq_static(ctx, 0xac, 0x17);     // Set Positive Gamma Correction-13 to 0xac
+       	 lt101mb_dcs_write_seq_static(ctx, 0xac, 0x18);     // Set Positive Gamma Correction-13 to 0xac
 		mdelay(11);    
-       	 lt101mb_dcs_write_seq_static(ctx, 0xad, 0x2a);      // Set Positive Gamma Correction-14 to 0x2A
+       	 lt101mb_dcs_write_seq_static(ctx, 0xad, 0x18);      // Set Positive Gamma Correction-14 to 0x2A
 		mdelay(11); 	
-      	 lt101mb_dcs_write_seq_static(ctx, 0xae, 0x08);    // Set Positive Gamma Correction-15 to 0x08
+      	 lt101mb_dcs_write_seq_static(ctx, 0xae, 0x4c);    // Set Positive Gamma Correction-15 to 0x08
 		mdelay(11);     
-       	 lt101mb_dcs_write_seq_static(ctx, 0xaf, 0x1a);     // Set Positive Gamma Correction-16 to 0x1a
+       	 lt101mb_dcs_write_seq_static(ctx, 0xaf, 0x21);     // Set Positive Gamma Correction-16 to 0x1a
 		mdelay(11);      
        	 lt101mb_dcs_write_seq_static(ctx, 0xb0, 0x27);    // Set Positive Gamma Correction-17 to 0x27
 		mdelay(11);     
-       	 lt101mb_dcs_write_seq_static(ctx, 0xb1, 0x15);    // Set Positive Gamma Correction-18 to 0x15
+       	 lt101mb_dcs_write_seq_static(ctx, 0xb1, 0x54);    // Set Positive Gamma Correction-18 to 0x15
 		mdelay(11);      
-       	 lt101mb_dcs_write_seq_static(ctx, 0xb2, 0x17);      // Set Positive Gamma Correction-19 to 0x17
+       	 lt101mb_dcs_write_seq_static(ctx, 0xb2, 0x67);      // Set Positive Gamma Correction-19 to 0x17
 		mdelay(11);    
-       	 lt101mb_dcs_write_seq_static(ctx, 0xb3, 0x2a);     // Set Positive Gamma Correction-20 to 0x2a
+       	 lt101mb_dcs_write_seq_static(ctx, 0xb3, 0x39);     // Set Positive Gamma Correction-20 to 0x2a
 		mdelay(11);	
     
   
