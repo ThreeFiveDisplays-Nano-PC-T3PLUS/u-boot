@@ -101,8 +101,8 @@
 
 	dp-planes {
 		layer_top {
-			screen_width = <1920>;
-			screen_height = <1200>;
+			screen_width = <720>;
+			screen_height = <1280>;
 			back_color = <0x0>;
 		};
 
