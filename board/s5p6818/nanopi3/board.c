@@ -177,16 +177,16 @@ static void bd_onewire_init(void)
 
 static void bd_lcd_init(void)
 {
-/*	struct nxp_lcd *cfg;
+	struct nxp_lcd *cfg;
 	int id;
 	int ret;
 
-	id = onewire_get_lcd_id();*/
+	id = onewire_get_lcd_id();
 	/* -1: onwire probe failed
 	 *  0: bad
 	 * >0: identified */
 
-/*	ret = bd_setup_lcd_by_id(id);
+	ret = bd_setup_lcd_by_id(id);
 	if (id <= 0 || ret != id) {
 		printf("Panel: N/A (%d)\n", id);
 		bd_setup_lcd_by_name("HDMI720P60");
@@ -198,7 +198,7 @@ static void bd_lcd_init(void)
 
 		if (cfg->gpio_init)
 			cfg->gpio_init();
-	 } */
+	 } 
 }
 
 static int mac_read_from_generic_eeprom(u8 *addr)
@@ -298,8 +298,8 @@ static void bd_update_env(void)
 		need_save = 1;
 	}
 
-	//name = bd_get_lcd_name();
-	   name = "TFC-J9500MTWX50TC-01";
+	name = bd_get_lcd_name();
+	//  name = "TFC-J9500MTWX50TC-01";
 
 	if (bootargs)
 		n = strlen(bootargs); 	/* isn't 0 for NULL */ 
@@ -330,8 +330,8 @@ static void bd_update_env(void)
 	if (lcddpi) {
 		n += sprintf(cmdline + n, ",%sdpi", lcddpi);
 	} else {
-		//int dpi = bd_get_lcd_density();
-                     int dpi = 295;
+		int dpi = bd_get_lcd_density();
+                  //   int dpi = 295;
 		if (dpi > 0 && dpi < 600) {
 			n += sprintf(cmdline + n, ",%ddpi", dpi);
 		}
